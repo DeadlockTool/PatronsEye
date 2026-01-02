@@ -6,162 +6,176 @@
     <title>Patron's Eye | Real-Time Counter-Picker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-   <style>
-    body { 
-        background-color: #0f172a; 
-        color: white; 
-        scroll-behavior: smooth;
-        background-image: linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.50)), url('PatronsEyeLogo.png');
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: 40%;
-        font-family: 'Orbitron', sans-serif;
-    }
+    <style>
+        body { 
+            background-color: #0f172a; 
+            color: white; 
+            scroll-behavior: smooth;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('PatronsEyeLogo.png');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 40%;
+            font-family: 'Orbitron', sans-serif;
+            overflow-x: hidden;
+        }
 
-    /* 1. SCANLINE OVERLAY - Add this right here */
-    body::before {
-        content: " ";
-        display: block;
-        position: fixed;
-        top: 0; left: 0; bottom: 0; right: 0;
-        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
-                    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-        z-index: 9999;
-        pointer-events: none;
-        background-size: 100% 4px, 3px 100%;
-    }
+        /* 1. CRT SCANLINE OVERLAY */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            z-index: 9999;
+            pointer-events: none;
+            background-size: 100% 4px, 3px 100%;
+        }
 
-    /* 2. PULSE ANIMATION - Add this for the glowing brand effect */
-    @keyframes pulse-glow {
-        0% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
-        50% { filter: drop-shadow(0 0 15px rgba(229, 160, 46, 0.8)); }
-        100% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
-    }
+        /* 2. PULSE ANIMATION */
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
+            50% { filter: drop-shadow(0 0 15px rgba(229, 160, 46, 0.8)); }
+            100% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
+        }
 
-    .logo-font {
-        font-weight: 900;
-        font-style: italic;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        transform: skewX(-10deg);
-        display: inline-block;
-    }
+        /* 3. LIVE STATUS DOT ANIMATION */
+        @keyframes status-blink {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #88B04B;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #88B04B;
+            animation: status-blink 2s infinite ease-in-out;
+        }
 
-    /* Applied the pulse animation to the metallic gold style */
-    .text-metallic { 
-        color: #FFEFAD;
-        text-shadow: 0 0 15px rgba(229, 160, 46, 0.6);
-        -webkit-text-fill-color: #FFEFAD; 
-        animation: pulse-glow 3s infinite ease-in-out;
-    }
+        .logo-font {
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transform: skewX(-10deg);
+            display: inline-block;
+        }
 
-    .text-cyber {
-        color: transparent;
-        -webkit-text-stroke: 1.5px #FFEFAD;
-        filter: drop-shadow(0 0 8px rgba(255, 239, 173, 0.4));
-        -webkit-text-fill-color: transparent;
-    }
+        .text-metallic { 
+            color: #FFEFAD;
+            text-shadow: 0 0 15px rgba(229, 160, 46, 0.6);
+            -webkit-text-fill-color: #FFEFAD; 
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
 
-    .text-solid-brand {
-        color: #E5A02E;
-        -webkit-text-fill-color: #E5A02E;
-        text-shadow: none;
-    }
+        .glass-panel { 
+            background: rgba(30, 41, 59, 0.4); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(136, 176, 75, 0.2); 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-    /* 3. UPGRADED GLASS PANEL - Now with hover tilt effect */
-    .glass-panel { 
-        background: rgba(30, 41, 59, 0.4); 
-        backdrop-filter: blur(12px); 
-        border: 1px solid rgba(136, 176, 75, 0.2); 
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
+        .glass-panel:hover {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: #E5A02E;
+            transform: translateY(-5px) scale(1.02);
+        }
 
-    .glass-panel:hover {
-        background: rgba(30, 41, 59, 0.6);
-        border-color: #E5A02E;
-        transform: translateY(-10px) scale(1.02);
-    }
+        .brand-button-main {
+            background-color: #E5A02E; 
+            color: #0f172a;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
-    .brand-button-main {
-        background-color: #E5A02E; 
-        color: #0f172a;
-        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
-        transition: all 0.3s ease;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
+        .brand-button-main:hover {
+            background-color: #FFEFAD;
+            transform: translateY(-2px) skewX(-10deg);
+            box-shadow: 0 6px 20px rgba(136, 176, 75, 0.5);
+        }
 
-    .brand-button-main:hover {
-        background-color: #FFEFAD;
-        transform: translateY(-2px) skewX(-10deg);
-        box-shadow: 0 6px 20px rgba(136, 176, 75, 0.5);
-    }
+        .brand-button-outline {
+            border: 2px solid #9B59B6;
+            color: #9B59B6;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
 
-    .brand-button-outline {
-        border: 2px solid #9B59B6;
-        color: #9B59B6;
-        transition: all 0.3s ease;
-        font-weight: 700;
-        text-transform: uppercase;
-    }
+        .brand-button-outline:hover {
+            background-color: rgba(155, 89, 182, 0.1);
+            border-color: #FFEFAD;
+            color: #FFEFAD;
+            transform: skewX(-10deg);
+        }
 
-    .brand-button-outline:hover {
-        background-color: rgba(155, 89, 182, 0.1);
-        border-color: #FFEFAD;
-        color: #FFEFAD;
-        transform: skewX(-10deg);
-    }
-
-    /* 4. CUSTOM SCROLLBAR - Final badass touch */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0f172a; }
-    ::-webkit-scrollbar-thumb { background: #9B59B6; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #FFEFAD; }
-</style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #9B59B6; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FFEFAD; }
+    </style>
 </head>
-<body class="font-sans antialiased">
+<body class="antialiased">
 
     <nav class="sticky top-0 z-50 glass-panel px-8 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img src="PatronsEyeLogo.png" alt="Patrons Eye Logo" class="h-10 w-auto">
-                <span class="text-2xl font-bold logo-font text-solid-brand">Patron's Eye</span>
+                <img src="PatronsEyeLogo.png" alt="Logo" class="h-16 w-auto">
+                <span class="text-2xl font-bold logo-font text-metallic">Patron's Eye</span>
             </div>
-            <div class="hidden md:flex space-x-8 text-gray-400 font-medium">
+            <div class="hidden md:flex space-x-8 text-gray-400 font-medium text-xs uppercase tracking-widest">
                 <a href="#security" class="hover:text-[#FFEFAD] transition">Security</a>
                 <a href="#install" class="hover:text-[#FFEFAD] transition">Setup</a>
-                <a href="#faq" class="hover:text-[#FFEFAD] transition">FAQ</a>
                 <a href="https://github.com/DeadlockTool/PatronsEye/discussions" target="_blank" class="hover:text-[#FFEFAD] transition">Community</a>
             </div>
-            <a href="https://github.com/DeadlockTool/PatronsEye/releases" class="bg-[#E5A02E] text-[#0f172a] px-5 py-2 rounded-lg font-bold hover:bg-[#FFEFAD] transition">Download</a>
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 bg-slate-900/80 px-3 py-1 rounded-full border border-green-500/30">
+                    <span class="status-dot"></span>
+                    <span class="text-[10px] font-bold text-green-400 uppercase tracking-tighter">Build Stable</span>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <header class="text-center py-32 px-4 max-w-4xl mx-auto">
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight logo-font">Watch the Meta with <span class="text-solid-brand">Patron's Eye</span></h1>
-        <p class="text-xl text-gray-400 mb-10 leading-relaxed">
+    <header class="text-center py-24 px-4 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight logo-font">
+            Watch the Meta with <br>
+            <span class="text-metallic">Patron's Eye</span>
+        </h1>
+
+        <div class="mb-8 flex flex-col items-center">
+            <img src="https://img.shields.io/github/downloads/DeadlockTool/PatronsEye/total?label=ACTIVE%20INSTALLS&color=E5A02E&style=for-the-badge" 
+                 alt="Downloads" class="rounded-lg shadow-lg">
+            <p class="text-[10px] text-gray-500 mt-2 tracking-[0.3em] uppercase">Real-Time Community Growth</p>
+        </div>
+
+        <p class="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl mx-auto">
             Advanced OCR overlay for Deadlock. Instantly scan enemy rosters and get professional item counter suggestions verified for <strong>Build 21231827</strong>.
         </p>
         
-        <div class="flex flex-col md:flex-row justify-center items-center gap-4">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-6">
             <a href="https://github.com/DeadlockTool/PatronsEye/releases/download/v1.0.0/PatronsEye_v1.0.zip" 
-               class="brand-button-main w-full md:w-auto px-10 py-4 rounded-xl text-xl font-bold text-center">
-                Download for Windows
+               class="brand-button-main px-12 py-5 rounded-xl text-xl font-black">
+                Download Now
             </a>
             <a href="https://github.com/DeadlockTool/PatronsEye" 
                target="_blank" 
-               class="brand-button-outline w-full md:w-auto px-10 py-4 rounded-xl text-xl font-bold text-center">
+               class="brand-button-outline px-12 py-5 rounded-xl text-xl font-bold">
                 View Source
             </a>
         </div>
-        <p class="mt-6 text-sm text-gray-500 text-center">Database Verified: December 16, 2025</p>
     </header>
 
     <section id="security" class="max-w-6xl mx-auto py-20 px-6">
         <div class="glass-panel p-10 rounded-3xl grid md:grid-cols-2 gap-12 items-center">
             <div>
-                <h2 class="text-3xl font-bold mb-6 text-[#E5A02E]">Non-Invasive Security</h2>
+                <h2 class="text-3xl font-bold mb-6 text-[#E5A02E] logo-font">Non-Invasive Security</h2>
                 <ul class="space-y-6 text-gray-300">
                     <li class="flex items-start">
                         <span class="text-[#88B04B] mr-3 font-bold text-xl">✔</span>
@@ -179,29 +193,29 @@
             </div>
             <div class="text-center p-8 bg-slate-900/50 rounded-2xl border border-[#9B59B6]/30">
                 <p class="text-[#FFEFAD] font-bold mb-2 uppercase tracking-widest text-xs">VirusTotal Scan Result</p>
-                <p class="text-6xl font-mono text-white mb-2 italic">0 / 72</p>
+                <p class="text-6xl font-mono text-white mb-2 italic font-black">0 / 72</p>
                 <p class="text-gray-500 text-sm italic">"Cleaned of all heuristic and signature threats."</p>
                 <a href="https://www.virustotal.com/gui/file/6229e3cba7a277cf76a4651f9005a22d6d39fc5814ba7211551157d8e98fff3e?nocache=1" target="_blank" class="mt-6 inline-block text-xs text-[#9B59B6] underline uppercase tracking-widest hover:text-[#FFEFAD] transition">
-                    View Full Security Report
+                    View Verified Scan Report
                 </a>
             </div>
         </div>
     </section>
 
     <section id="install" class="max-w-6xl mx-auto py-20 px-6">
-        <h2 class="text-4xl font-bold mb-12 text-center text-[#FFEFAD]">How to Get Started</h2>
+        <h2 class="text-4xl font-bold mb-12 text-center text-[#FFEFAD] logo-font">How to Get Started</h2>
         <div class="grid md:grid-cols-3 gap-8 text-center">
-            <div class="glass-panel p-8 rounded-2xl hover:border-[#E5A02E] transition">
+            <div class="glass-panel p-8 rounded-2xl">
                 <div class="text-4xl mb-6">📦</div>
                 <h3 class="text-xl font-bold mb-3 text-white">1. Extract Everything</h3>
-                <p class="text-gray-400 text-sm">Download the ZIP and <strong>Extract All</strong>. The app requires extracted dependencies to run.</p>
+                <p class="text-gray-400 text-sm">Download the ZIP and <strong>Extract All</strong>. The app will fail if run from inside the compressed folder.</p>
             </div>
-            <div class="glass-panel p-8 rounded-2xl hover:border-[#E5A02E] transition">
+            <div class="glass-panel p-8 rounded-2xl">
                 <div class="text-4xl mb-6">📂</div>
                 <h3 class="text-xl font-bold mb-3 text-white">2. File Placement</h3>
                 <p class="text-gray-400 text-sm">Ensure the <code>assets</code> folder and all <code>JSON</code> files remain in the same directory as the <code>.exe</code>.</p>
             </div>
-            <div class="glass-panel p-8 rounded-2xl hover:border-[#E5A02E] transition">
+            <div class="glass-panel p-8 rounded-2xl">
                 <div class="text-4xl mb-6">🖥️</div>
                 <h3 class="text-xl font-bold mb-3 text-white">3. Borderless Mode</h3>
                 <p class="text-gray-400 text-sm">Set Deadlock to <strong>Borderless Windowed</strong>. Fullscreen mode will block the overlay.</p>
@@ -209,23 +223,13 @@
         </div>
     </section>
 
-    <section id="faq" class="max-w-4xl mx-auto py-20 px-6 border-t border-gray-800">
-        <h2 class="text-3xl font-bold mb-12 text-center text-[#E5A02E]">Troubleshooting</h2>
-        <div class="space-y-8">
-            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800">
-                <h4 class="font-bold text-lg mb-2">Windows says "Unrecognized App"?</h4>
-                <p class="text-gray-400 text-sm">Click <strong>"More Info"</strong> and then <strong>"Run Anyway."</strong> Community tools often trigger this warning before being whitelisted.</p>
-            </div>
-            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800">
-                <h4 class="font-bold text-lg mb-2">Scanner isn't finding heroes?</h4>
-                <p class="text-gray-400 text-sm">OCR works best at 100% Windows scaling. Verify your resolution is 1080p or higher for optimal detection.</p>
-            </div>
-        </div>
-    </section>
-
     <footer class="py-16 text-center border-t border-gray-800 mt-20">
-        <p class="text-gray-500 text-sm">© 2026 Patron's Eye Community Project.</p>
-        <p class="text-xs text-gray-600 mt-2 italic">Not affiliated with Valve Corporation. Uses OCR pixel scanning; does not modify game memory.</p>
+        <p class="text-gray-600 text-[10px] tracking-widest uppercase mb-4 font-bold">Patron's Eye // Community Project</p>
+        <div class="flex justify-center space-x-6">
+            <a href="https://ko-fi.com/" class="text-xs text-gray-400 hover:text-[#E5A02E]">Buy me a coffee</a>
+            <a href="https://github.com/DeadlockTool/PatronsEye" class="text-xs text-gray-400 hover:text-[#E5A02E]">GitHub</a>
+        </div>
+        <p class="text-xs text-gray-600 mt-8 italic">Not affiliated with Valve Corporation. Uses OCR pixel scanning; does not modify game memory.</p>
     </footer>
 
 </body>
