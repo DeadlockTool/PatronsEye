@@ -6,7 +6,17 @@
     <title>Patrons Eye | Real-Time Counter-Picker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0f172a; color: white; scroll-behavior: smooth; }
+        body { 
+            background-color: #0f172a; 
+            color: white; 
+            scroll-behavior: smooth;
+            /* Background Logo Implementation */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('PatronsEyeLogo.png');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 40%; /* Increase this % to make the background logo larger */
+        }
         .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .glass-panel { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
@@ -16,9 +26,9 @@
     <nav class="sticky top-0 z-50 glass-panel px-8 py-4">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-3">
-    <img src="logo.png" alt="Patrons Eye Logo" class="h-10 w-auto">
-    <span class="text-2xl font-bold gradient-text">Patrons Eye</span>
-</div>
+                <img src="PatronsEyeLogo.png" alt="Patrons Eye Logo" class="h-10 w-auto">
+                <span class="text-2xl font-bold gradient-text">Patrons Eye</span>
+            </div>
             <div class="hidden md:flex space-x-8 text-gray-400 font-medium">
                 <a href="#security" class="hover:text-white transition">Security</a>
                 <a href="#install" class="hover:text-white transition">Setup</a>
@@ -29,10 +39,8 @@
         </div>
     </nav>
 
-<header class="text-center py-24 px-4 max-w-4xl mx-auto">
-        <img src="PatronsEyeLogo.png" alt="Patrons Eye Logo" class="mx-auto h-32 w-auto mb-8">
-
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">Watch the Meta with <span class="gradient-text text-6xl">Patrons Eye</span></h1>
+    <header class="text-center py-24 px-4 max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight text-6xl">Watch the Meta with <span class="gradient-text">Patrons Eye</span></h1>
         <p class="text-xl text-gray-400 mb-10 leading-relaxed text-6xl">
             The premier OCR overlay for Deadlock. Instantly scan enemy rosters and receive professional item counter suggestions verified for <strong>Build 21231827</strong>.
         </p>
@@ -50,7 +58,7 @@
     <section id="security" class="max-w-6xl mx-auto py-20 px-6">
         <div class="glass-panel p-10 rounded-3xl grid md:grid-cols-2 gap-12 items-center">
             <div>
-                <h2 class="text-3xl font-bold mb-6 text-indigo-400">Non-Invasive Security</h2>
+                <h2 class="text-3xl font-bold mb-6 text-indigo-400 text-6xl">Non-Invasive Security</h2>
                 <ul class="space-y-6 text-gray-300">
                     <li class="flex items-start">
                         <span class="text-green-400 mr-3">✔</span>
@@ -77,8 +85,8 @@
         </div>
     </section>
 
-    <section id="install" class="max-w-6xl mx-auto py-20 px-6">
-        <h2 class="text-4xl font-bold mb-12 text-center">How to Get Started</h2>
+    <section id="install" class="max-w-6xl mx-auto py-20 px-6 text-6xl">
+        <h2 class="text-4xl font-bold mb-12 text-center text-6xl">How to Get Started</h2>
         <div class="grid md:grid-cols-3 gap-8">
             <div class="glass-panel p-8 rounded-2xl hover:border-indigo-500/50 transition">
                 <div class="text-4xl mb-6">📦</div>
@@ -97,21 +105,21 @@
             <div class="glass-panel p-8 rounded-2xl hover:border-indigo-500/50 transition text-center">
                 <div class="text-4xl mb-6">🖥️</div>
                 <h3 class="text-xl font-bold mb-3 text-white">3. Borderless Mode</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">
+                <p class="text-gray-400 text-sm leading-relaxed text-center">
                     Set Deadlock to <strong>Borderless Windowed</strong>. Fullscreen mode will prevent the overlay from showing.
                 </p>
             </div>
         </div>
     </section>
 
-    <section id="faq" class="max-w-4xl mx-auto py-20 px-6 border-t border-gray-800">
-        <h2 class="text-3xl font-bold mb-12 text-center text-indigo-400">Troubleshooting</h2>
+    <section id="faq" class="max-w-4xl mx-auto py-20 px-6 border-t border-gray-800 text-6xl">
+        <h2 class="text-3xl font-bold mb-12 text-center text-indigo-400 text-6xl">Troubleshooting</h2>
         <div class="space-y-8">
-            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800">
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800 text-6xl">
                 <h4 class="font-bold text-lg mb-2">Windows says "Unrecognized App"?</h4>
                 <p class="text-gray-400">Click <strong>"More Info"</strong> and then <strong>"Run Anyway."</strong> Since this is a custom tool, Windows hasn't added it to their white-list yet.</p>
             </div>
-            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800">
+            <div class="bg-slate-900/50 p-6 rounded-xl border border-gray-800 text-6xl">
                 <h4 class="font-bold text-lg mb-2">Scanner isn't finding heroes?</h4>
                 <p class="text-gray-400">The OCR works best at 1080p and 1440p. Make sure your Windows scaling is set to 100%. If issues persist, check the Discussions tab.</p>
             </div>
@@ -125,7 +133,7 @@
             </a>
         </div>
         <p class="text-gray-500 text-sm">© 2026 Patrons Eye Community Project.</p>
-        <p class="text-xs text-gray-600 mt-2 italic">Not affiliated with Valve Corporation. Use at your own risk.</p>
+        <p class="text-xs text-gray-600 mt-2 italic text-6xl leading-relaxed">Not affiliated with Valve Corporation. Use at your own risk. This tool does not modify game files or memory.</p>
     </footer>
 
 </body>
