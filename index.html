@@ -6,12 +6,11 @@
     <title>Patron's Eye | Real-Time Counter-Picker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
+   <style>
     body { 
         background-color: #0f172a; 
         color: white; 
         scroll-behavior: smooth;
-        /* Logo Watermark Background */
         background-image: linear-gradient(rgba(15, 23, 42, 0.50), rgba(15, 23, 42, 0.50)), url('PatronsEyeLogo.png');
         background-attachment: fixed;
         background-position: center;
@@ -20,7 +19,26 @@
         font-family: 'Orbitron', sans-serif;
     }
 
-    /* Base Logo Font Style */
+    /* 1. SCANLINE OVERLAY - Add this right here */
+    body::before {
+        content: " ";
+        display: block;
+        position: fixed;
+        top: 0; left: 0; bottom: 0; right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+        z-index: 9999;
+        pointer-events: none;
+        background-size: 100% 4px, 3px 100%;
+    }
+
+    /* 2. PULSE ANIMATION - Add this for the glowing brand effect */
+    @keyframes pulse-glow {
+        0% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
+        50% { filter: drop-shadow(0 0 15px rgba(229, 160, 46, 0.8)); }
+        100% { filter: drop-shadow(0 0 5px rgba(229, 160, 46, 0.4)); }
+    }
+
     .logo-font {
         font-weight: 900;
         font-style: italic;
@@ -30,14 +48,14 @@
         display: inline-block;
     }
 
-    /* --- SUGGESTION 1: METALLIC GOLD GLOW (Clean & Premium) --- */
+    /* Applied the pulse animation to the metallic gold style */
     .text-metallic { 
         color: #FFEFAD;
         text-shadow: 0 0 15px rgba(229, 160, 46, 0.6);
         -webkit-text-fill-color: #FFEFAD; 
+        animation: pulse-glow 3s infinite ease-in-out;
     }
 
-    /* --- SUGGESTION 2: CYBER OUTLINE (Modern Gaming/HUD) --- */
     .text-cyber {
         color: transparent;
         -webkit-text-stroke: 1.5px #FFEFAD;
@@ -45,36 +63,43 @@
         -webkit-text-fill-color: transparent;
     }
 
-    /* --- SUGGESTION 3: SOLID BRAND AMBER (Minimalist/Bold) --- */
     .text-solid-brand {
         color: #E5A02E;
         -webkit-text-fill-color: #E5A02E;
         text-shadow: none;
     }
 
+    /* 3. UPGRADED GLASS PANEL - Now with hover tilt effect */
     .glass-panel { 
-        background: rgba(30, 41, 59, 0.6); 
+        background: rgba(30, 41, 59, 0.4); 
         backdrop-filter: blur(12px); 
-        border: 1px solid rgba(136, 176, 75, 0.3); /* Moss Green Accents */
+        border: 1px solid rgba(136, 176, 75, 0.2); 
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .glass-panel:hover {
+        background: rgba(30, 41, 59, 0.6);
+        border-color: #E5A02E;
+        transform: translateY(-10px) scale(1.02);
     }
 
     .brand-button-main {
-        background-color: #E5A02E; /* Amber */
+        background-color: #E5A02E; 
         color: #0f172a;
-        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3); /* Amethyst Glow */
+        box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
         transition: all 0.3s ease;
         font-weight: 700;
         text-transform: uppercase;
     }
 
     .brand-button-main:hover {
-        background-color: #FFEFAD; /* Gold */
+        background-color: #FFEFAD;
         transform: translateY(-2px) skewX(-10deg);
         box-shadow: 0 6px 20px rgba(136, 176, 75, 0.5);
     }
 
     .brand-button-outline {
-        border: 2px solid #9B59B6; /* Amethyst */
+        border: 2px solid #9B59B6;
         color: #9B59B6;
         transition: all 0.3s ease;
         font-weight: 700;
@@ -87,6 +112,12 @@
         color: #FFEFAD;
         transform: skewX(-10deg);
     }
+
+    /* 4. CUSTOM SCROLLBAR - Final badass touch */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #9B59B6; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FFEFAD; }
 </style>
 </head>
 <body class="font-sans antialiased">
